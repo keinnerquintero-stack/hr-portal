@@ -1,0 +1,17 @@
+.leave-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.reason-cell {
+  max-width: 220px;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 900px) {
+  .leave-layout {
+    grid-template-columns: 1fr;
+  }
+}

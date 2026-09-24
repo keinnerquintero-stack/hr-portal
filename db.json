@@ -1,0 +1,123 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "username": "employee1",
+      "password": "employee123",
+      "role": "employee",
+      "employeeId": "e1"
+    },
+    {
+      "id": "u2",
+      "username": "hradmin",
+      "password": "hr123456",
+      "role": "hr",
+      "employeeId": "e2"
+    }
+  ],
+  "employees": [
+    {
+      "id": "e1",
+      "name": "Sarah Mitchell",
+      "email": "employee1@brightpath-hr.com",
+      "department": "Product Design",
+      "position": "UI/UX Designer",
+      "phone": "555-0142",
+      "joinDate": "2023-03-14",
+      "status": "Active",
+      "manager": "David Chen",
+      "leaveBalance": 12
+    },
+    {
+      "id": "e2",
+      "name": "Priya Nair",
+      "email": "hradmin@brightpath-hr.com",
+      "department": "Human Resources",
+      "position": "HR Manager",
+      "phone": "555-0199",
+      "joinDate": "2021-06-01",
+      "status": "Active",
+      "manager": "-",
+      "leaveBalance": 18
+    },
+    {
+      "id": "e3",
+      "name": "David Chen",
+      "email": "david.chen@brightpath-hr.com",
+      "department": "Product Design",
+      "position": "Design Lead",
+      "phone": "555-0110",
+      "joinDate": "2020-01-20",
+      "status": "Active",
+      "manager": "-",
+      "leaveBalance": 9
+    },
+    {
+      "id": "e4",
+      "name": "Marcus Owusu",
+      "email": "marcus.owusu@brightpath-hr.com",
+      "department": "Engineering",
+      "position": "Frontend Developer",
+      "phone": "555-0176",
+      "joinDate": "2024-01-08",
+      "status": "Active",
+      "manager": "David Chen",
+      "leaveBalance": 15
+    }
+  ],
+  "leaveRequests": [
+    {
+      "id": "l1",
+      "employeeId": "e1",
+      "employeeName": "Sarah Mitchell",
+      "type": "Vacation",
+      "startDate": "2026-10-05",
+      "endDate": "2026-10-09",
+      "reason": "Family trip",
+      "status": "Pending",
+      "appliedOn": "2026-09-18"
+    },
+    {
+      "id": "l2",
+      "employeeId": "e4",
+      "employeeName": "Marcus Owusu",
+      "type": "Sick Leave",
+      "startDate": "2026-09-15",
+      "endDate": "2026-09-16",
+      "reason": "Flu",
+      "status": "Approved",
+      "appliedOn": "2026-09-14"
+    }
+  ],
+  "onboarding": [
+    {
+      "id": "o1",
+      "employeeId": "e4",
+      "employeeName": "Marcus Owusu",
+      "startDate": "2024-01-08",
+      "tasks": [
+        { "id": "t1", "label": "Sign employment contract", "done": true },
+        { "id": "t2", "label": "Set up workstation & accounts", "done": true },
+        { "id": "t3", "label": "Complete benefits enrollment", "done": false },
+        { "id": "t4", "label": "Attend orientation session", "done": false },
+        { "id": "t5", "label": "Meet assigned mentor", "done": false }
+      ]
+    }
+  ],
+  "announcements": [
+    {
+      "id": "a1",
+      "title": "Open Enrollment Starts Next Week",
+      "body": "Benefits open enrollment runs from Oct 1-15. Review your plan options in the Employee Policy section.",
+      "author": "Priya Nair",
+      "date": "2026-09-20"
+    },
+    {
+      "id": "a2",
+      "title": "Office Closed for Holiday",
+      "body": "The office will be closed on October 12 for the public holiday. Remote work is available for anyone who needs to work that day.",
+      "author": "Priya Nair",
+      "date": "2026-09-10"
+    }
+  ]
+}
