@@ -44,7 +44,7 @@ export function LeaveBalanceWidget({ employee }) {
       <h3 className="widget-title">Leave Balance</h3>
       <p className="stat-number">{employee.leaveBalance}</p>
       <p className="stat-caption">days available this year</p>
-      <Link to="/leave" className="btn btn-secondary btn-sm">
+      <Link to="/time" className="btn btn-secondary btn-sm">
         Request Leave
       </Link>
     </div>
@@ -72,7 +72,7 @@ export function MyLeaveWidget({ requests }) {
           ))}
         </ul>
       )}
-      <Link to="/leave" className="widget-link">
+      <Link to="/time" className="widget-link">
         Manage leave requests →
       </Link>
     </div>
@@ -134,7 +134,7 @@ export function QuickActionsWidget({ isHR }) {
     <div className="card card-padded widget">
       <h3 className="widget-title">Quick Actions</h3>
       <div className="quick-actions">
-        <Link to="/leave" className="btn btn-secondary btn-sm">
+        <Link to="/time" className="btn btn-secondary btn-sm">
           Request Leave
         </Link>
         <Link to="/profile" className="btn btn-secondary btn-sm">
@@ -149,6 +149,34 @@ export function QuickActionsWidget({ isHR }) {
           </Link>
         )}
       </div>
+    </div>
+  );
+}
+
+export function AlertsWidget({ alerts, onDismiss }) {
+  return (
+    <div className="card card-padded widget widget-wide">
+      <h3 className="widget-title">Alerts</h3>
+      {alerts.length === 0 ? (
+        <p className="widget-empty">No alerts right now. You're all caught up.</p>
+      ) : (
+        <ul className="mini-list">
+          {alerts.slice(0, 4).map((a) => (
+            <li key={a.id}>
+              <div>
+                <span className="mini-list-title">{a.title}</span>
+                <p className="mini-list-body">{a.message}</p>
+                <span className="mini-list-sub">{a.date}</span>
+              </div>
+              {!a.read && (
+                <button className="btn btn-outline btn-sm" onClick={() => onDismiss(a.id)}>
+                  Mark read
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

@@ -1,0 +1,46 @@
+.tm-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.reason-cell {
+  max-width: 220px;
+  color: var(--color-text-muted);
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.schedule-day {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  text-align: center;
+}
+
+.schedule-day-label {
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.schedule-day-time {
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 960px) {
+  .tm-layout {
+    grid-template-columns: 1fr;
+  }
+  .schedule-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -1,0 +1,31 @@
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.job-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.job-card-top h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.job-description {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  margin: 10px 0 16px;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .jobs-grid {
+    grid-template-columns: 1fr;
+  }
+}

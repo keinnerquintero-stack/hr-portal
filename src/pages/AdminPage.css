@@ -75,6 +75,25 @@
   color: var(--color-primary-dark);
 }
 
+.leave-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.admin-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .leave-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
 .onboarding-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

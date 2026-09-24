@@ -1,13 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import {
+  getAlertsForEmployee,
   getAnnouncements,
   getEmployees,
   getLeaveRequests,
   getLeaveRequestsForEmployee,
   getOnboarding,
+  markAlertRead,
 } from "../api";
 import {
+  AlertsWidget,
   AnnouncementsWidget,
   LeaveBalanceWidget,
   MyLeaveWidget,
@@ -20,6 +23,7 @@ import "./DashboardPage.css";
 
 const WIDGET_DEFS = [
   { key: "profile", label: "Profile Summary" },
+  { key: "alerts", label: "Alerts" },
   { key: "leaveBalance", label: "Leave Balance" },
   { key: "myLeave", label: "My Leave Requests" },
   { key: "announcements", label: "Company Announcements" },
@@ -37,6 +41,7 @@ function loadPreferences(username) {
 export default function DashboardPage() {
   const { user, isHR, session } = useAuth();
   const [announcements, setAnnouncements] = useState([]);
+  const [alerts, setAlerts] = useState([]);
   const [myLeave, setMyLeave] = useState([]);
   const [onboarding, setOnboarding] = useState(null);
   const [employees, setEmployees] = useState([]);
@@ -53,6 +58,7 @@ export default function DashboardPage() {
         getAnnouncements(),
         getLeaveRequestsForEmployee(user.id),
         getOnboarding(),
+        getAlertsForEmployee(user.id),
       ];
       if (isHR) {
         tasks.push(getEmployees(), getLeaveRequests());
@@ -63,9 +69,10 @@ export default function DashboardPage() {
       setMyLeave(results[1]);
       const record = results[2].find((o) => o.employeeId === user.id);
       setOnboarding(record ?? null);
+      setAlerts(results[3]);
       if (isHR) {
-        setEmployees(results[3]);
-        setAllLeave(results[4]);
+        setEmployees(results[4]);
+        setAllLeave(results[5]);
       }
       setLoading(false);
     }
@@ -81,6 +88,11 @@ export default function DashboardPage() {
       localStorage.setItem(`dashboardWidgets:${session.username}`, JSON.stringify(next));
       return next;
     });
+  }
+
+  async function dismissAlert(id) {
+    await markAlertRead(id);
+    setAlerts((prev) => prev.map((a) => (a.id === id ? { ...a, read: true } : a)));
   }
 
   const visibleDefs = useMemo(
@@ -128,6 +140,7 @@ export default function DashboardPage() {
 
       <div className="widget-grid">
         {enabled.includes("profile") && <ProfileWidget employee={user} />}
+        {enabled.includes("alerts") && <AlertsWidget alerts={alerts} onDismiss={dismissAlert} />}
         {enabled.includes("leaveBalance") && <LeaveBalanceWidget employee={user} />}
         {enabled.includes("quickActions") && <QuickActionsWidget isHR={isHR} />}
         {enabled.includes("myLeave") && <MyLeaveWidget requests={myLeave} />}

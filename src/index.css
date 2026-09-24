@@ -35,6 +35,10 @@ body,
   height: 100%;
 }
 
+html {
+  font-size: 17px;
+}
+
 body {
   margin: 0;
   font-family: "Segoe UI", Inter, system-ui, -apple-system, sans-serif;
@@ -58,10 +62,16 @@ button {
 }
 
 .page-container {
-  max-width: 1180px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 32px 24px 64px;
+  padding: 36px 32px 80px;
   width: 100%;
+}
+
+@media (max-width: 640px) {
+  .page-container {
+    padding: 22px 16px 56px;
+  }
 }
 
 .card {
@@ -261,4 +271,309 @@ th {
   justify-content: center;
   min-height: 60vh;
   color: var(--color-text-muted);
+}
+
+/* Animations */
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  animation: fadeSlideIn 0.32s ease both;
+}
+
+.card {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card-padded:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.animate-pop {
+  animation: popIn 0.22s ease both;
+}
+
+/* Dropdown menu primitive (used by nav "Company Info" menu, notification bell) */
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 50;
+  animation: popIn 0.16s ease both;
+  transform-origin: top right;
+}
+
+.dropdown-panel-left {
+  right: auto;
+  left: 0;
+  transform-origin: top left;
+}
+
+/* Notification bell */
+
+.bell-button {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+}
+
+.bell-button:hover {
+  background: var(--color-bg);
+}
+
+.bell-dot {
+  position: absolute;
+  top: 6px;
+  right: 7px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-danger);
+  border: 2px solid var(--color-surface);
+}
+
+.notif-panel {
+  width: 340px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.notif-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.notif-header h4 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.notif-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.notif-item:hover {
+  background: var(--color-bg);
+}
+
+.notif-item:last-child {
+  border-bottom: none;
+}
+
+.notif-item-unread {
+  background: var(--color-primary-light);
+}
+
+.notif-title {
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 2px;
+}
+
+.notif-message {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin: 0 0 4px;
+}
+
+.notif-date {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.notif-empty {
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+/* Floating help widget */
+
+.help-fab {
+  position: fixed;
+  bottom: 26px;
+  right: 26px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: #fff;
+  border: none;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+  transition: transform 0.18s ease;
+}
+
+.help-fab:hover {
+  transform: scale(1.07);
+}
+
+.help-panel {
+  position: fixed;
+  bottom: 96px;
+  right: 26px;
+  width: 320px;
+  max-width: calc(100vw - 40px);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: 60;
+  animation: slideUp 0.22s ease both;
+  overflow: hidden;
+}
+
+.help-panel-header {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: #fff;
+  padding: 16px 18px;
+}
+
+.help-panel-header h4 {
+  margin: 0 0 2px;
+}
+
+.help-panel-header p {
+  margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.help-panel-body {
+  padding: 16px 18px;
+}
+
+.help-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.help-faq-item {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+
+/* Company info nav menu */
+
+.company-menu-panel {
+  width: 220px;
+  padding: 8px;
+}
+
+.company-menu-item {
+  display: block;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.company-menu-item:hover {
+  background: var(--color-bg);
+  color: var(--color-primary);
+}
+
+/* Section tab bar (reused across Time Management / Learning / Payroll pages) */
+
+.section-tabs {
+  display: flex;
+  gap: 6px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 6px;
+  margin-bottom: 22px;
+  width: fit-content;
+  flex-wrap: wrap;
+}
+
+.section-tab {
+  border: none;
+  background: transparent;
+  padding: 9px 16px;
+  border-radius: 9px;
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.section-tab-active {
+  background: var(--color-primary);
+  color: #fff;
 }

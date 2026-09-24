@@ -26,7 +26,30 @@
       "joinDate": "2023-03-14",
       "status": "Active",
       "manager": "David Chen",
-      "leaveBalance": 12
+      "leaveBalance": 12,
+      "benefits": {
+        "healthPlan": "BrightPath PPO Gold",
+        "dentalPlan": "Delta Dental Plus",
+        "visionPlan": "VSP Choice",
+        "retirement401k": { "enrolled": true, "contributionPct": 6 },
+        "dependents": [
+          { "id": "d1", "name": "Alex Mitchell", "relationship": "Spouse", "dob": "1990-04-12" }
+        ],
+        "beneficiaries": [
+          { "id": "b1", "name": "Alex Mitchell", "relationship": "Spouse", "percentage": 100 }
+        ]
+      },
+      "payroll": {
+        "payType": "Salary",
+        "payRate": 92000,
+        "payFrequency": "Bi-Weekly",
+        "taxSetup": { "filingStatus": "Single", "allowances": 1, "state": "NY" },
+        "directDeposit": { "bankName": "First Horizon Bank", "accountLast4": "4821", "accountType": "Checking" },
+        "payStubs": [
+          { "id": "ps1", "period": "2026-08-16 - 2026-08-31", "grossPay": 3538.46, "netPay": 2691.02, "date": "2026-09-01" },
+          { "id": "ps2", "period": "2026-09-01 - 2026-09-15", "grossPay": 3538.46, "netPay": 2691.02, "date": "2026-09-16" }
+        ]
+      }
     },
     {
       "id": "e2",
@@ -38,7 +61,28 @@
       "joinDate": "2021-06-01",
       "status": "Active",
       "manager": "-",
-      "leaveBalance": 18
+      "leaveBalance": 18,
+      "benefits": {
+        "healthPlan": "BrightPath PPO Gold",
+        "dentalPlan": "Delta Dental Plus",
+        "visionPlan": "VSP Choice",
+        "retirement401k": { "enrolled": true, "contributionPct": 8 },
+        "dependents": [],
+        "beneficiaries": [
+          { "id": "b1", "name": "Rohan Nair", "relationship": "Sibling", "percentage": 100 }
+        ]
+      },
+      "payroll": {
+        "payType": "Salary",
+        "payRate": 118000,
+        "payFrequency": "Bi-Weekly",
+        "taxSetup": { "filingStatus": "Head of Household", "allowances": 2, "state": "NY" },
+        "directDeposit": { "bankName": "Union Community Bank", "accountLast4": "7734", "accountType": "Checking" },
+        "payStubs": [
+          { "id": "ps1", "period": "2026-08-16 - 2026-08-31", "grossPay": 4538.46, "netPay": 3402.15, "date": "2026-09-01" },
+          { "id": "ps2", "period": "2026-09-01 - 2026-09-15", "grossPay": 4538.46, "netPay": 3402.15, "date": "2026-09-16" }
+        ]
+      }
     },
     {
       "id": "e3",
@@ -50,7 +94,25 @@
       "joinDate": "2020-01-20",
       "status": "Active",
       "manager": "-",
-      "leaveBalance": 9
+      "leaveBalance": 9,
+      "benefits": {
+        "healthPlan": "BrightPath PPO Silver",
+        "dentalPlan": "Delta Dental Plus",
+        "visionPlan": "VSP Choice",
+        "retirement401k": { "enrolled": false, "contributionPct": 0 },
+        "dependents": [],
+        "beneficiaries": []
+      },
+      "payroll": {
+        "payType": "Salary",
+        "payRate": 104000,
+        "payFrequency": "Bi-Weekly",
+        "taxSetup": { "filingStatus": "Married Filing Jointly", "allowances": 2, "state": "NY" },
+        "directDeposit": { "bankName": "First Horizon Bank", "accountLast4": "1190", "accountType": "Checking" },
+        "payStubs": [
+          { "id": "ps1", "period": "2026-08-16 - 2026-08-31", "grossPay": 4000, "netPay": 3021.44, "date": "2026-09-01" }
+        ]
+      }
     },
     {
       "id": "e4",
@@ -62,7 +124,27 @@
       "joinDate": "2024-01-08",
       "status": "Active",
       "manager": "David Chen",
-      "leaveBalance": 15
+      "leaveBalance": 15,
+      "benefits": {
+        "healthPlan": "BrightPath PPO Gold",
+        "dentalPlan": "Delta Dental Basic",
+        "visionPlan": "VSP Choice",
+        "retirement401k": { "enrolled": true, "contributionPct": 4 },
+        "dependents": [],
+        "beneficiaries": [
+          { "id": "b1", "name": "Ama Owusu", "relationship": "Parent", "percentage": 100 }
+        ]
+      },
+      "payroll": {
+        "payType": "Salary",
+        "payRate": 88000,
+        "payFrequency": "Bi-Weekly",
+        "taxSetup": { "filingStatus": "Single", "allowances": 1, "state": "NY" },
+        "directDeposit": { "bankName": "Union Community Bank", "accountLast4": "5502", "accountType": "Checking" },
+        "payStubs": [
+          { "id": "ps1", "period": "2026-08-16 - 2026-08-31", "grossPay": 3384.62, "netPay": 2590.10, "date": "2026-09-01" }
+        ]
+      }
     }
   ],
   "leaveRequests": [
@@ -119,5 +201,177 @@
       "author": "Priya Nair",
       "date": "2026-09-10"
     }
-  ]
+  ],
+  "alerts": [
+    {
+      "id": "al1",
+      "employeeId": "all",
+      "title": "Welcome to the new BrightPath Portal",
+      "message": "Explore your dashboard, benefits, payroll, and learning sections.",
+      "date": "2026-09-20",
+      "read": false
+    },
+    {
+      "id": "al2",
+      "employeeId": "e4",
+      "title": "Leave request approved",
+      "message": "Your Sick Leave request for Sep 15 - Sep 16 was approved.",
+      "date": "2026-09-14",
+      "read": false
+    }
+  ],
+  "jobPostings": [
+    {
+      "id": "j1",
+      "title": "Senior Frontend Engineer",
+      "department": "Engineering",
+      "location": "Remote (US)",
+      "type": "Full-Time",
+      "description": "Own the frontend architecture for our internal tools, mentor engineers, and collaborate closely with design.",
+      "postedDate": "2026-09-05",
+      "status": "Open"
+    },
+    {
+      "id": "j2",
+      "title": "People Operations Coordinator",
+      "department": "Human Resources",
+      "location": "New York, NY",
+      "type": "Full-Time",
+      "description": "Support onboarding, benefits administration, and employee engagement programs.",
+      "postedDate": "2026-09-12",
+      "status": "Open"
+    },
+    {
+      "id": "j3",
+      "title": "Product Designer",
+      "department": "Product Design",
+      "location": "Hybrid - New York",
+      "type": "Full-Time",
+      "description": "Design end-to-end experiences for our customer-facing products alongside a small, senior team.",
+      "postedDate": "2026-08-28",
+      "status": "Open"
+    }
+  ],
+  "jobApplications": [],
+  "learningItems": [
+    {
+      "id": "tr1",
+      "employeeId": "e4",
+      "title": "Workplace Harassment Prevention",
+      "type": "Training",
+      "description": "Annual compliance training required for all employees.",
+      "assignedBy": "Priya Nair",
+      "assignedDate": "2026-09-01",
+      "dueDate": "2026-09-30",
+      "status": "In Progress"
+    },
+    {
+      "id": "tr2",
+      "employeeId": "e4",
+      "title": "Intro to React Performance",
+      "type": "Video",
+      "description": "A 40-minute video covering profiling and rendering optimization techniques.",
+      "assignedBy": "David Chen",
+      "assignedDate": "2026-09-10",
+      "dueDate": "",
+      "status": "Not Started"
+    },
+    {
+      "id": "tr3",
+      "employeeId": "e1",
+      "title": "Design Systems Fundamentals",
+      "type": "Course",
+      "description": "Self-paced course on building and maintaining a scalable design system.",
+      "assignedBy": "David Chen",
+      "assignedDate": "2026-08-20",
+      "dueDate": "2026-10-01",
+      "status": "Completed"
+    }
+  ],
+  "certifications": [
+    {
+      "id": "c1",
+      "employeeId": "e1",
+      "name": "Certified UX Professional",
+      "issuer": "Nielsen Norman Group",
+      "issuedDate": "2025-03-15",
+      "expiryDate": "2027-03-15",
+      "status": "Active"
+    }
+  ],
+  "documents": [
+    {
+      "id": "doc1",
+      "employeeId": "all",
+      "name": "Employee Handbook 2026",
+      "category": "Company Policy",
+      "uploadedDate": "2026-01-05"
+    },
+    {
+      "id": "doc2",
+      "employeeId": "e1",
+      "name": "Offer Letter - Sarah Mitchell",
+      "category": "Employment",
+      "uploadedDate": "2023-03-01"
+    },
+    {
+      "id": "doc3",
+      "employeeId": "e4",
+      "name": "Offer Letter - Marcus Owusu",
+      "category": "Employment",
+      "uploadedDate": "2024-01-02"
+    }
+  ],
+  "timesheets": [
+    {
+      "id": "ts1",
+      "employeeId": "e4",
+      "payPeriodStart": "2026-09-01",
+      "payPeriodEnd": "2026-09-15",
+      "status": "Approved",
+      "entries": [
+        { "date": "2026-09-01", "hours": 8 },
+        { "date": "2026-09-02", "hours": 8 },
+        { "date": "2026-09-03", "hours": 7.5 }
+      ]
+    },
+    {
+      "id": "ts2",
+      "employeeId": "e4",
+      "payPeriodStart": "2026-09-16",
+      "payPeriodEnd": "2026-09-30",
+      "status": "Submitted",
+      "entries": [
+        { "date": "2026-09-16", "hours": 8 },
+        { "date": "2026-09-17", "hours": 8 }
+      ]
+    }
+  ],
+  "punchRequests": [
+    {
+      "id": "pr1",
+      "employeeId": "e4",
+      "employeeName": "Marcus Owusu",
+      "date": "2026-09-17",
+      "requestedTime": "08:55 AM",
+      "type": "Clock In Correction",
+      "reason": "Badge reader was offline at the front entrance.",
+      "status": "Pending"
+    }
+  ],
+  "schedules": [
+    {
+      "id": "sch1",
+      "employeeId": "e4",
+      "weekOf": "2026-09-21",
+      "shifts": [
+        { "day": "Monday", "start": "09:00 AM", "end": "05:00 PM" },
+        { "day": "Tuesday", "start": "09:00 AM", "end": "05:00 PM" },
+        { "day": "Wednesday", "start": "09:00 AM", "end": "05:00 PM" },
+        { "day": "Thursday", "start": "09:00 AM", "end": "05:00 PM" },
+        { "day": "Friday", "start": "09:00 AM", "end": "03:00 PM" }
+      ]
+    }
+  ],
+  "helpRequests": []
 }

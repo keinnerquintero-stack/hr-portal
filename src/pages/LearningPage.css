@@ -1,0 +1,44 @@
+.learning-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.learning-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.learning-type-icon {
+  font-size: 1.4rem;
+}
+
+.learning-card h4 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+}
+
+.learning-description {
+  color: var(--color-text-muted);
+  font-size: 0.86rem;
+  margin: 0 0 10px;
+}
+
+.learning-card .mini-list-sub {
+  display: block;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 960px) {
+  .learning-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .learning-grid {
+    grid-template-columns: 1fr;
+  }
+}
