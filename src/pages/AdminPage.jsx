@@ -582,10 +582,8 @@ function OnboardingTracker() {
 
   return (
     <div className="card card-padded">
-      <div className="admin-panel-header">
-        <p className="widget-title" style={{ margin: 0 }}>
-          Active Onboarding Plans
-        </p>
+      <div className="card-header-band">
+        <p>Active Onboarding Plans</p>
         <button className="btn btn-primary" onClick={() => setModalOpen(true)} disabled={eligible.length === 0}>
           + Start Onboarding
         </button>
@@ -716,10 +714,8 @@ function JobPostingsManager() {
 
   return (
     <div className="card card-padded">
-      <div className="admin-panel-header">
-        <p className="widget-title" style={{ margin: 0 }}>
-          Open Positions
-        </p>
+      <div className="card-header-band">
+        <p>Open Positions</p>
         <button className="btn btn-primary" onClick={() => setModalOpen(true)}>
           + Post a Job
         </button>
@@ -897,10 +893,8 @@ function LearningAssignments() {
 
   return (
     <div className="card card-padded">
-      <div className="admin-panel-header">
-        <p className="widget-title" style={{ margin: 0 }}>
-          Assigned Learning
-        </p>
+      <div className="card-header-band">
+        <p>Assigned Learning</p>
         <button className="btn btn-primary" onClick={() => setModalOpen(true)}>
           + Assign Learning
         </button>

@@ -188,10 +188,8 @@ export default function BenefitsPage() {
         </div>
 
         <div className="card card-padded">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <h3 className="widget-title" style={{ marginBottom: 4 }}>
-              Beneficiaries
-            </h3>
+          <div className="card-header-band">
+            <h3>Beneficiaries</h3>
             <span className={`badge ${remainingPct === 0 ? "badge-success" : "badge-neutral"}`}>
               {remainingPct}% unallocated
             </span>

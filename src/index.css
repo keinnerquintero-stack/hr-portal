@@ -265,6 +265,38 @@ th {
   color: var(--color-text-muted);
 }
 
+.widget-title {
+  margin: -24px -24px 18px -24px;
+  padding: 14px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  border-bottom: 1px solid var(--color-border);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.card-header-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: -24px -24px 18px -24px;
+  padding: 14px 24px;
+  background: var(--color-primary-light);
+  border-bottom: 1px solid var(--color-border);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.card-header-band h3,
+.card-header-band p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
 .spinner-wrap {
   display: flex;
   align-items: center;
