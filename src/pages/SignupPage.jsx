@@ -52,6 +52,7 @@ export default function SignupPage() {
   return (
     <div className="auth-page">
       <div className="card auth-card" style={{ maxWidth: 520 }}>
+        <img src="/images/brightpath-wordmark.svg" alt="BrightPath" className="auth-wordmark" />
         <h1>Create your account</h1>
         <p className="auth-subtitle">
           Register as an employee to access the portal and submit your onboarding details.

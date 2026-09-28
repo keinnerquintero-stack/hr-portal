@@ -11,7 +11,11 @@ export function ProfileWidget({ employee }) {
     <div className="card card-padded widget">
       <h3 className="widget-title">Profile Summary</h3>
       <div className="profile-row">
-        <div className="profile-avatar">{employee.name.charAt(0)}</div>
+        <img
+          className="profile-avatar"
+          src={employee.photoUrl || "/images/generic-default-avatar.png"}
+          alt=""
+        />
         <div>
           <p className="profile-name">{employee.name}</p>
           <p className="profile-role">{employee.position}</p>

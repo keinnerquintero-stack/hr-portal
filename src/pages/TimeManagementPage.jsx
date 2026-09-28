@@ -155,7 +155,7 @@ function LeaveTab() {
         ) : requests.length === 0 ? (
           <div className="empty-state">You haven't submitted any leave requests yet.</div>
         ) : (
-          <table>
+          <div className="table-scroll"><table>
             <thead>
               <tr>
                 <th>Type</th>
@@ -178,7 +178,7 @@ function LeaveTab() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
         )}
       </div>
     </div>
@@ -273,7 +273,7 @@ function TimesheetsTab() {
         ) : timesheets.length === 0 ? (
           <div className="empty-state">No timesheets submitted yet.</div>
         ) : (
-          <table>
+          <div className="table-scroll"><table>
             <thead>
               <tr>
                 <th>Pay Period</th>
@@ -294,7 +294,7 @@ function TimesheetsTab() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
         )}
       </div>
     </div>
@@ -391,7 +391,7 @@ function PunchTab() {
         ) : requests.length === 0 ? (
           <div className="empty-state">No punch correction requests yet.</div>
         ) : (
-          <table>
+          <div className="table-scroll"><table>
             <thead>
               <tr>
                 <th>Type</th>
@@ -412,7 +412,7 @@ function PunchTab() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
         )}
       </div>
     </div>

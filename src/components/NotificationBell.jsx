@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { getAlertsForEmployee, markAlertRead } from "../api";
+import Modal from "./Modal";
 
 function timeAgo(dateStr) {
   const diffDays = Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000);
@@ -13,6 +14,7 @@ export default function NotificationBell() {
   const { user } = useAuth();
   const [alerts, setAlerts] = useState([]);
   const [open, setOpen] = useState(false);
+  const [activeAlert, setActiveAlert] = useState(null);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -37,7 +39,9 @@ export default function NotificationBell() {
 
   const unreadCount = alerts.filter((a) => !a.read).length;
 
-  async function handleOpen(alert) {
+  async function openAlert(alert) {
+    setActiveAlert(alert);
+    setOpen(false);
     if (!alert.read) {
       await markAlertRead(alert.id);
       setAlerts((prev) => prev.map((a) => (a.id === alert.id ? { ...a, read: true } : a)));
@@ -66,18 +70,28 @@ export default function NotificationBell() {
             <div className="notif-empty">You're all caught up.</div>
           ) : (
             alerts.map((a) => (
-              <div
+              <button
                 key={a.id}
+                type="button"
                 className={`notif-item${a.read ? "" : " notif-item-unread"}`}
-                onClick={() => handleOpen(a)}
+                onClick={() => openAlert(a)}
               >
-                <div className="notif-title">{a.title}</div>
-                <p className="notif-message">{a.message}</p>
+                <span className="notif-title">{a.title}</span>
+                <span className="notif-message">{a.message}</span>
                 <span className="notif-date">{timeAgo(a.date)}</span>
-              </div>
+              </button>
             ))
           )}
         </div>
+      )}
+
+      {activeAlert && (
+        <Modal title={activeAlert.title} onClose={() => setActiveAlert(null)}>
+          <p className="stat-caption" style={{ marginTop: 0 }}>
+            {timeAgo(activeAlert.date)} · {activeAlert.date}
+          </p>
+          <p style={{ fontSize: "0.95rem", lineHeight: 1.6, margin: 0 }}>{activeAlert.message}</p>
+        </Modal>
       )}
     </div>
   );

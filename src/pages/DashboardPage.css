@@ -91,13 +91,8 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 1.1rem;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .profile-name {
@@ -174,6 +169,13 @@
 .mini-list li:last-child {
   border-bottom: none;
   padding-bottom: 0;
+}
+
+.mini-list-item-active {
+  background: var(--color-primary-light);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px !important;
+  margin: -8px -10px 4px;
 }
 
 .mini-list-title {

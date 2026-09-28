@@ -170,7 +170,7 @@ export default function PayrollPage() {
             {payroll.payStubs.length === 0 ? (
               <div className="empty-state">No pay stubs available yet.</div>
             ) : (
-              <table>
+              <div className="table-scroll"><table>
                 <thead>
                   <tr>
                     <th>Pay Period</th>
@@ -195,7 +195,7 @@ export default function PayrollPage() {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table></div>
             )}
           </div>
         )}
@@ -317,59 +317,63 @@ function PayStubDetail({ stub, payroll, user }) {
         </div>
       </div>
 
-      <table className="paystub-table">
-        <thead>
-          <tr>
-            <th>Earnings</th>
-            <th style={{ textAlign: "right" }}>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Gross pay</td>
-            <td style={{ textAlign: "right" }}>{currency(stub.grossPay)}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="table-scroll">
+        <table className="paystub-table">
+          <thead>
+            <tr>
+              <th>Earnings</th>
+              <th style={{ textAlign: "right" }}>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Gross pay</td>
+              <td style={{ textAlign: "right" }}>{currency(stub.grossPay)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-      <table className="paystub-table">
-        <thead>
-          <tr>
-            <th>Deductions</th>
-            <th style={{ textAlign: "right" }}>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Federal &amp; state tax withheld</td>
-            <td style={{ textAlign: "right" }}>{currency(d.taxesWithheld)}</td>
-          </tr>
-          <tr>
-            <td>Social Security (6.2%)</td>
-            <td style={{ textAlign: "right" }}>{currency(d.socialSecurity)}</td>
-          </tr>
-          <tr>
-            <td>Medicare (1.45%)</td>
-            <td style={{ textAlign: "right" }}>{currency(d.medicare)}</td>
-          </tr>
-          <tr>
-            <td>401(k) contribution</td>
-            <td style={{ textAlign: "right" }}>{currency(d.retirement401k)}</td>
-          </tr>
-          <tr>
-            <td>Health insurance</td>
-            <td style={{ textAlign: "right" }}>{currency(d.healthInsurance)}</td>
-          </tr>
-          <tr>
-            <td>Dental insurance</td>
-            <td style={{ textAlign: "right" }}>{currency(d.dental)}</td>
-          </tr>
-          <tr>
-            <td>Vision insurance</td>
-            <td style={{ textAlign: "right" }}>{currency(d.vision)}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="table-scroll">
+        <table className="paystub-table">
+          <thead>
+            <tr>
+              <th>Deductions</th>
+              <th style={{ textAlign: "right" }}>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Federal &amp; state tax withheld</td>
+              <td style={{ textAlign: "right" }}>{currency(d.taxesWithheld)}</td>
+            </tr>
+            <tr>
+              <td>Social Security (6.2%)</td>
+              <td style={{ textAlign: "right" }}>{currency(d.socialSecurity)}</td>
+            </tr>
+            <tr>
+              <td>Medicare (1.45%)</td>
+              <td style={{ textAlign: "right" }}>{currency(d.medicare)}</td>
+            </tr>
+            <tr>
+              <td>401(k) contribution</td>
+              <td style={{ textAlign: "right" }}>{currency(d.retirement401k)}</td>
+            </tr>
+            <tr>
+              <td>Health insurance</td>
+              <td style={{ textAlign: "right" }}>{currency(d.healthInsurance)}</td>
+            </tr>
+            <tr>
+              <td>Dental insurance</td>
+              <td style={{ textAlign: "right" }}>{currency(d.dental)}</td>
+            </tr>
+            <tr>
+              <td>Vision insurance</td>
+              <td style={{ textAlign: "right" }}>{currency(d.vision)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div className="paystub-net">
         <span>Net Pay</span>

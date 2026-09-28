@@ -11,7 +11,9 @@ import {
   getLeaveRequestsForEmployee,
   getOnboarding,
   markAlertRead,
+  updateEmployee,
 } from "../api";
+import { DEFAULT_DASHBOARD_WIDGETS, WIDGET_DEFS } from "../dashboardWidgets";
 import {
   AlertsWidget,
   AnnouncementsWidget,
@@ -29,30 +31,8 @@ import {
 } from "./widgets";
 import "./DashboardPage.css";
 
-const WIDGET_DEFS = [
-  { key: "profile", label: "Profile Summary" },
-  { key: "alerts", label: "Alerts" },
-  { key: "leaveBalance", label: "Leave Balance" },
-  { key: "myLeave", label: "My Leave Requests" },
-  { key: "payroll", label: "Payroll" },
-  { key: "benefits", label: "Benefits" },
-  { key: "learning", label: "Learning" },
-  { key: "documents", label: "Documents" },
-  { key: "jobs", label: "Job Opportunities" },
-  { key: "announcements", label: "Company Announcements" },
-  { key: "onboarding", label: "Onboarding Checklist" },
-  { key: "quickActions", label: "Quick Actions" },
-  { key: "teamOverview", label: "Team Overview (HR)", hrOnly: true },
-];
-
-function loadPreferences(username) {
-  const stored = localStorage.getItem(`dashboardWidgets:${username}`);
-  if (stored) return JSON.parse(stored);
-  return WIDGET_DEFS.map((w) => w.key);
-}
-
 export default function DashboardPage() {
-  const { user, isHR, session } = useAuth();
+  const { user, isHR, refreshEmployee } = useAuth();
   const [announcements, setAnnouncements] = useState([]);
   const [alerts, setAlerts] = useState([]);
   const [myLeave, setMyLeave] = useState([]);
@@ -63,7 +43,7 @@ export default function DashboardPage() {
   const [documentCount, setDocumentCount] = useState(0);
   const [openJobCount, setOpenJobCount] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [enabled, setEnabled] = useState(() => loadPreferences(session.username));
+  const [enabled, setEnabled] = useState(() => user.dashboardWidgets ?? DEFAULT_DASHBOARD_WIDGETS);
   const [customizing, setCustomizing] = useState(false);
 
   useEffect(() => {
@@ -104,12 +84,11 @@ export default function DashboardPage() {
     };
   }, [user.id, isHR]);
 
-  function toggleWidget(key) {
-    setEnabled((prev) => {
-      const next = prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key];
-      localStorage.setItem(`dashboardWidgets:${session.username}`, JSON.stringify(next));
-      return next;
-    });
+  async function toggleWidget(key) {
+    const next = enabled.includes(key) ? enabled.filter((k) => k !== key) : [...enabled, key];
+    setEnabled(next);
+    const updated = await updateEmployee(user.id, { dashboardWidgets: next });
+    refreshEmployee(updated);
   }
 
   async function dismissAlert(id) {

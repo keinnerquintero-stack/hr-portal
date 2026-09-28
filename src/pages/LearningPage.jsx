@@ -78,7 +78,7 @@ export default function LearningPage() {
           {certifications.length === 0 ? (
             <div className="empty-state">No certifications on file yet.</div>
           ) : (
-            <table>
+            <div className="table-scroll"><table>
               <thead>
                 <tr>
                   <th>Certification</th>
@@ -101,7 +101,7 @@ export default function LearningPage() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           )}
         </div>
       ) : visibleItems.length === 0 ? (

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import Modal from "../components/Modal";
+import { DEFAULT_DASHBOARD_WIDGETS } from "../dashboardWidgets";
 import {
   createAlert,
   createAnnouncement,
@@ -144,6 +145,7 @@ function EmployeeDirectory() {
         ...form,
         joinDate: new Date().toISOString().slice(0, 10),
         status: "Active",
+        dashboardWidgets: DEFAULT_DASHBOARD_WIDGETS,
         benefits: {
           healthPlan: "BrightPath PPO Silver",
           dentalPlan: "Delta Dental Basic",
@@ -197,7 +199,7 @@ function EmployeeDirectory() {
       ) : filtered.length === 0 ? (
         <div className="empty-state">No employees match your search.</div>
       ) : (
-        <table>
+        <div className="table-scroll"><table>
           <thead>
             <tr>
               <th>Name</th>
@@ -227,7 +229,7 @@ function EmployeeDirectory() {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       )}
 
       {modalMode && (
@@ -341,7 +343,7 @@ function LeaveApprovals() {
       ) : visible.length === 0 ? (
         <div className="empty-state">No {filter.toLowerCase()} leave requests.</div>
       ) : (
-        <table>
+        <div className="table-scroll"><table>
           <thead>
             <tr>
               <th>Employee</th>
@@ -379,7 +381,7 @@ function LeaveApprovals() {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       )}
     </div>
   );
@@ -441,7 +443,7 @@ function TimeApprovals() {
         {timesheets.length === 0 ? (
           <div className="empty-state">No timesheets submitted yet.</div>
         ) : (
-          <table>
+          <div className="table-scroll"><table>
             <thead>
               <tr>
                 <th>Employee</th>
@@ -477,7 +479,7 @@ function TimeApprovals() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
         )}
       </div>
 
@@ -486,7 +488,7 @@ function TimeApprovals() {
         {punches.length === 0 ? (
           <div className="empty-state">No punch correction requests.</div>
         ) : (
-          <table>
+          <div className="table-scroll"><table>
             <thead>
               <tr>
                 <th>Employee</th>
@@ -522,7 +524,7 @@ function TimeApprovals() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
         )}
       </div>
     </div>
@@ -726,7 +728,7 @@ function JobPostingsManager() {
       ) : postings.length === 0 ? (
         <div className="empty-state">No job postings yet.</div>
       ) : (
-        <table>
+        <div className="table-scroll"><table>
           <thead>
             <tr>
               <th>Title</th>
@@ -757,7 +759,7 @@ function JobPostingsManager() {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       )}
 
       {modalOpen && (
@@ -905,7 +907,7 @@ function LearningAssignments() {
       ) : items.length === 0 ? (
         <div className="empty-state">Nothing assigned yet.</div>
       ) : (
-        <table>
+        <div className="table-scroll"><table>
           <thead>
             <tr>
               <th>Employee</th>
@@ -934,7 +936,7 @@ function LearningAssignments() {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       )}
 
       {modalOpen && (

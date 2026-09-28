@@ -41,6 +41,7 @@ export default function LoginPage() {
   return (
     <div className="auth-page">
       <div className="card auth-card">
+        <img src="/images/brightpath-wordmark.svg" alt="BrightPath" className="auth-wordmark" />
         <h1>Welcome back</h1>
         <p className="auth-subtitle">Log in to access your HR workspace.</p>
 

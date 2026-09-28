@@ -1,7 +1,8 @@
+import { createPortal } from "react-dom";
 import "./Modal.css";
 
 export default function Modal({ title, onClose, children, footer, wide = false }) {
-  return (
+  return createPortal(
     <div className="modal-backdrop" onClick={onClose}>
       <div className={`modal-panel${wide ? " modal-panel-wide" : ""}`} onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
@@ -13,6 +14,7 @@ export default function Modal({ title, onClose, children, footer, wide = false }
         <div className="modal-body">{children}</div>
         {footer && <div className="modal-footer">{footer}</div>}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

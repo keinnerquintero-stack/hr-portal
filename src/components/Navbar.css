@@ -26,16 +26,10 @@
 }
 
 .navbar-logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  color: #fff;
-  font-size: 0.78rem;
-  font-weight: 800;
+  object-fit: cover;
 }
 
 .navbar-links {
@@ -95,12 +89,8 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: var(--color-primary-light);
-  color: var(--color-primary-dark);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .navbar-user-meta {

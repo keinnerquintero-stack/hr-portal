@@ -25,6 +25,7 @@
 
 .paystub-detail-header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 16px;
   padding-bottom: 14px;
@@ -57,7 +58,16 @@
 }
 
 .paystub-table {
+  table-layout: fixed;
+  width: 100%;
   margin-bottom: 14px;
+}
+
+.paystub-table th,
+.paystub-table td {
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  overflow-wrap: break-word;
 }
 
 .paystub-table th {

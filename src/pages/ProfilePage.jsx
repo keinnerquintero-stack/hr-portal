@@ -50,6 +50,16 @@ export default function ProfilePage() {
 
       {message && <div className="alert alert-success">{message}</div>}
 
+      <div className="profile-hero">
+        <img className="profile-hero-avatar" src={user.photoUrl || "/images/generic-default-avatar.png"} alt="" />
+        <div>
+          <p className="profile-hero-name">{user.name}</p>
+          <p className="profile-hero-role">
+            {user.position} · {user.department}
+          </p>
+        </div>
+      </div>
+
       <div className="card card-padded">
         {editing ? (
           <form onSubmit={handleSave}>

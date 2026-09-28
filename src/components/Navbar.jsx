@@ -65,7 +65,7 @@ export default function Navbar() {
     <header className="navbar">
       <div className="navbar-inner">
         <NavLink to="/" className="navbar-brand">
-          <span className="navbar-logo">HR</span>
+          <img src="/images/brightpath-icon.svg" alt="" className="navbar-logo" />
           BrightPath Portal
         </NavLink>
 
@@ -86,7 +86,11 @@ export default function Navbar() {
               </NavLink>
               <NotificationBell />
               <NavLink to="/profile" className="navbar-user" title="Go to My Profile">
-                <div className="navbar-avatar">{user?.name?.charAt(0) ?? "?"}</div>
+                <img
+                  className="navbar-avatar"
+                  src={user?.photoUrl || "/images/generic-default-avatar.png"}
+                  alt=""
+                />
                 <div className="navbar-user-meta">
                   <span className="navbar-user-name">{user?.name}</span>
                   <span className={`badge ${role === "hr" ? "badge-neutral" : "badge-success"}`}>

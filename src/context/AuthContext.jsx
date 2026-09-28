@@ -5,6 +5,7 @@ import {
   getEmployee,
   usernameExists,
 } from "../api";
+import { DEFAULT_DASHBOARD_WIDGETS } from "../dashboardWidgets";
 
 const AuthContext = createContext(null);
 const SESSION_KEY = "hrPortalSession";
@@ -54,6 +55,23 @@ export function AuthProvider({ children }) {
       status: "Active",
       manager: "Unassigned",
       leaveBalance: 15,
+      dashboardWidgets: DEFAULT_DASHBOARD_WIDGETS,
+      benefits: {
+        healthPlan: "BrightPath PPO Silver",
+        dentalPlan: "Delta Dental Basic",
+        visionPlan: "VSP Choice",
+        retirement401k: { enrolled: false, contributionPct: 0 },
+        dependents: [],
+        beneficiaries: [],
+      },
+      payroll: {
+        payType: "Salary",
+        payRate: 65000,
+        payFrequency: "Bi-Weekly",
+        taxSetup: { filingStatus: "Single", allowances: 1, state: "NY" },
+        directDeposit: { bankName: "", accountLast4: "", accountType: "Checking" },
+        payStubs: [],
+      },
     };
     const user = {
       id: `u${Date.now()}`,

@@ -19,10 +19,14 @@ export default function BenefitsPage() {
   const [message, setMessage] = useState("");
 
   const [dependentForm, setDependentForm] = useState({ name: "", relationship: "", dob: "" });
-  const [beneficiaryForm, setBeneficiaryForm] = useState({ name: "", relationship: "", percentage: "" });
+  const emptyBeneficiaryForm = { name: "", relationship: "", percentage: "" };
+  const [beneficiaryForm, setBeneficiaryForm] = useState(emptyBeneficiaryForm);
   const [beneficiaryError, setBeneficiaryError] = useState("");
+  const [editingBeneficiaryId, setEditingBeneficiaryId] = useState(null);
 
-  const allocatedPct = benefits.beneficiaries.reduce((sum, b) => sum + b.percentage, 0);
+  const allocatedPct = benefits.beneficiaries
+    .filter((b) => b.id !== editingBeneficiaryId)
+    .reduce((sum, b) => sum + b.percentage, 0);
   const remainingPct = Math.max(0, 100 - allocatedPct);
 
   async function saveBenefits(next) {
@@ -59,7 +63,7 @@ export default function BenefitsPage() {
     await saveBenefits({ ...benefits, dependents: benefits.dependents.filter((d) => d.id !== id) });
   }
 
-  async function addBeneficiary(e) {
+  async function submitBeneficiary(e) {
     e.preventDefault();
     setBeneficiaryError("");
     if (!beneficiaryForm.name) return;
@@ -76,15 +80,32 @@ export default function BenefitsPage() {
       return;
     }
 
-    await saveBenefits({
-      ...benefits,
-      beneficiaries: [...benefits.beneficiaries, { id: `b${Date.now()}`, ...beneficiaryForm, percentage: pct }],
-    });
-    setBeneficiaryForm({ name: "", relationship: "", percentage: "" });
+    const nextBeneficiaries = editingBeneficiaryId
+      ? benefits.beneficiaries.map((b) =>
+          b.id === editingBeneficiaryId ? { ...b, ...beneficiaryForm, percentage: pct } : b
+        )
+      : [...benefits.beneficiaries, { id: `b${Date.now()}`, ...beneficiaryForm, percentage: pct }];
+
+    await saveBenefits({ ...benefits, beneficiaries: nextBeneficiaries });
+    setBeneficiaryForm(emptyBeneficiaryForm);
+    setEditingBeneficiaryId(null);
+  }
+
+  function startEditBeneficiary(b) {
+    setBeneficiaryError("");
+    setEditingBeneficiaryId(b.id);
+    setBeneficiaryForm({ name: b.name, relationship: b.relationship, percentage: b.percentage });
+  }
+
+  function cancelEditBeneficiary() {
+    setBeneficiaryError("");
+    setEditingBeneficiaryId(null);
+    setBeneficiaryForm(emptyBeneficiaryForm);
   }
 
   async function removeBeneficiary(id) {
     setBeneficiaryError("");
+    if (editingBeneficiaryId === id) cancelEditBeneficiary();
     await saveBenefits({ ...benefits, beneficiaries: benefits.beneficiaries.filter((b) => b.id !== id) });
   }
 
@@ -204,32 +225,42 @@ export default function BenefitsPage() {
           ) : (
             <ul className="mini-list">
               {benefits.beneficiaries.map((b) => (
-                <li key={b.id}>
+                <li key={b.id} className={editingBeneficiaryId === b.id ? "mini-list-item-active" : ""}>
                   <div>
                     <span className="mini-list-title">{b.name}</span>
                     <span className="mini-list-sub">
                       {b.relationship} · {b.percentage}%
                     </span>
                   </div>
-                  <button className="btn btn-danger btn-sm" onClick={() => removeBeneficiary(b.id)}>
-                    Remove
-                  </button>
+                  <div className="admin-row-actions">
+                    <button className="btn btn-outline btn-sm" onClick={() => startEditBeneficiary(b)}>
+                      Edit
+                    </button>
+                    <button className="btn btn-danger btn-sm" onClick={() => removeBeneficiary(b.id)}>
+                      Remove
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
           )}
-          <form onSubmit={addBeneficiary} className="inline-add-form">
+          {editingBeneficiaryId && (
+            <p className="stat-caption" style={{ marginTop: 12, marginBottom: 0 }}>
+              Editing {beneficiaryForm.name || "beneficiary"}…
+            </p>
+          )}
+          <form onSubmit={submitBeneficiary} className="inline-add-form">
             <input
               placeholder="Name"
               value={beneficiaryForm.name}
               onChange={(e) => setBeneficiaryForm((f) => ({ ...f, name: e.target.value }))}
-              disabled={remainingPct === 0}
+              disabled={remainingPct === 0 && !editingBeneficiaryId}
             />
             <input
               placeholder="Relationship"
               value={beneficiaryForm.relationship}
               onChange={(e) => setBeneficiaryForm((f) => ({ ...f, relationship: e.target.value }))}
-              disabled={remainingPct === 0}
+              disabled={remainingPct === 0 && !editingBeneficiaryId}
             />
             <input
               type="number"
@@ -238,11 +269,20 @@ export default function BenefitsPage() {
               max={remainingPct}
               value={beneficiaryForm.percentage}
               onChange={(e) => setBeneficiaryForm((f) => ({ ...f, percentage: e.target.value }))}
-              disabled={remainingPct === 0}
+              disabled={remainingPct === 0 && !editingBeneficiaryId}
             />
-            <button type="submit" className="btn btn-secondary btn-sm" disabled={remainingPct === 0}>
-              + Add
+            <button
+              type="submit"
+              className="btn btn-secondary btn-sm"
+              disabled={remainingPct === 0 && !editingBeneficiaryId}
+            >
+              {editingBeneficiaryId ? "Save changes" : "+ Add"}
             </button>
+            {editingBeneficiaryId && (
+              <button type="button" className="btn btn-outline btn-sm" onClick={cancelEditBeneficiary}>
+                Cancel
+              </button>
+            )}
           </form>
         </div>
       </div>
