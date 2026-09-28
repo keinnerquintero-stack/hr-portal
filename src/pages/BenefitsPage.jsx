@@ -20,6 +20,10 @@ export default function BenefitsPage() {
 
   const [dependentForm, setDependentForm] = useState({ name: "", relationship: "", dob: "" });
   const [beneficiaryForm, setBeneficiaryForm] = useState({ name: "", relationship: "", percentage: "" });
+  const [beneficiaryError, setBeneficiaryError] = useState("");
+
+  const allocatedPct = benefits.beneficiaries.reduce((sum, b) => sum + b.percentage, 0);
+  const remainingPct = Math.max(0, 100 - allocatedPct);
 
   async function saveBenefits(next) {
     const updated = await updateEmployee(user.id, { benefits: next });
@@ -57,18 +61,30 @@ export default function BenefitsPage() {
 
   async function addBeneficiary(e) {
     e.preventDefault();
+    setBeneficiaryError("");
     if (!beneficiaryForm.name) return;
+
+    const pct = Number(beneficiaryForm.percentage);
+    if (!pct || pct <= 0) {
+      setBeneficiaryError("Enter a percentage greater than 0.");
+      return;
+    }
+    if (allocatedPct + pct > 100) {
+      setBeneficiaryError(
+        `Beneficiaries can total 100% at most. ${remainingPct}% is still available to allocate.`
+      );
+      return;
+    }
+
     await saveBenefits({
       ...benefits,
-      beneficiaries: [
-        ...benefits.beneficiaries,
-        { id: `b${Date.now()}`, ...beneficiaryForm, percentage: Number(beneficiaryForm.percentage) },
-      ],
+      beneficiaries: [...benefits.beneficiaries, { id: `b${Date.now()}`, ...beneficiaryForm, percentage: pct }],
     });
     setBeneficiaryForm({ name: "", relationship: "", percentage: "" });
   }
 
   async function removeBeneficiary(id) {
+    setBeneficiaryError("");
     await saveBenefits({ ...benefits, beneficiaries: benefits.beneficiaries.filter((b) => b.id !== id) });
   }
 
@@ -172,7 +188,19 @@ export default function BenefitsPage() {
         </div>
 
         <div className="card card-padded">
-          <h3 className="widget-title">Beneficiaries</h3>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <h3 className="widget-title" style={{ marginBottom: 4 }}>
+              Beneficiaries
+            </h3>
+            <span className={`badge ${remainingPct === 0 ? "badge-success" : "badge-neutral"}`}>
+              {remainingPct}% unallocated
+            </span>
+          </div>
+          {beneficiaryError && (
+            <div className="alert alert-error" style={{ marginTop: 8 }}>
+              {beneficiaryError}
+            </div>
+          )}
           {benefits.beneficiaries.length === 0 ? (
             <p className="widget-empty">No beneficiaries added yet.</p>
           ) : (
@@ -197,21 +225,24 @@ export default function BenefitsPage() {
               placeholder="Name"
               value={beneficiaryForm.name}
               onChange={(e) => setBeneficiaryForm((f) => ({ ...f, name: e.target.value }))}
+              disabled={remainingPct === 0}
             />
             <input
               placeholder="Relationship"
               value={beneficiaryForm.relationship}
               onChange={(e) => setBeneficiaryForm((f) => ({ ...f, relationship: e.target.value }))}
+              disabled={remainingPct === 0}
             />
             <input
               type="number"
               placeholder="%"
-              min="0"
-              max="100"
+              min="1"
+              max={remainingPct}
               value={beneficiaryForm.percentage}
               onChange={(e) => setBeneficiaryForm((f) => ({ ...f, percentage: e.target.value }))}
+              disabled={remainingPct === 0}
             />
-            <button type="submit" className="btn btn-secondary btn-sm">
+            <button type="submit" className="btn btn-secondary btn-sm" disabled={remainingPct === 0}>
               + Add
             </button>
           </form>

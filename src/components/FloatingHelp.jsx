@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { createHelpRequest } from "../api";
 
@@ -14,6 +14,12 @@ export default function FloatingHelp() {
   const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
+  const textareaRef = useRef(null);
+
+  function pickFaq(question) {
+    setMessage(question);
+    textareaRef.current?.focus();
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -41,13 +47,20 @@ export default function FloatingHelp() {
             <p>We usually reply within one business day.</p>
           </div>
           <div className="help-panel-body">
-            <div className="help-faq">
-              {FAQS.map((q) => (
-                <div key={q} className="help-faq-item">
-                  {q}
-                </div>
-              ))}
-            </div>
+            {!sent && (
+              <div className="help-faq">
+                {FAQS.map((q) => (
+                  <button
+                    key={q}
+                    type="button"
+                    className="help-faq-item"
+                    onClick={() => pickFaq(q)}
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            )}
 
             {sent ? (
               <div className="alert alert-success" style={{ marginBottom: 0 }}>
@@ -57,7 +70,8 @@ export default function FloatingHelp() {
               <form onSubmit={handleSubmit}>
                 <div className="field" style={{ marginBottom: 10 }}>
                   <textarea
-                    placeholder="Type your question…"
+                    ref={textareaRef}
+                    placeholder="Type your question, or tap one above…"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     style={{ minHeight: 70 }}

@@ -10,6 +10,7 @@ export default function JobsPage() {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeJob, setActiveJob] = useState(null);
+  const [modalMode, setModalMode] = useState("details");
   const [applying, setApplying] = useState(false);
   const [coverNote, setCoverNote] = useState("");
 
@@ -27,6 +28,16 @@ export default function JobsPage() {
 
   function hasApplied(jobId) {
     return applications.some((a) => a.jobId === jobId);
+  }
+
+  function openDetails(job) {
+    setActiveJob(job);
+    setModalMode("details");
+  }
+
+  function openApply(job) {
+    setActiveJob(job);
+    setModalMode("apply");
   }
 
   async function handleApply(e) {
@@ -80,20 +91,74 @@ export default function JobsPage() {
               <p className="mini-list-sub">
                 {job.department} · {job.location} · Posted {job.postedDate}
               </p>
+              {job.salaryRange && <p className="job-salary">{job.salaryRange}</p>}
               <p className="job-description">{job.description}</p>
-              {hasApplied(job.id) ? (
-                <span className="badge badge-success">Application submitted</span>
-              ) : (
-                <button className="btn btn-primary btn-sm" onClick={() => setActiveJob(job)}>
-                  Apply Now
+              <div className="job-card-actions">
+                <button className="btn btn-outline btn-sm" onClick={() => openDetails(job)}>
+                  View Details
                 </button>
-              )}
+                {hasApplied(job.id) ? (
+                  <span className="badge badge-success">Application submitted</span>
+                ) : (
+                  <button className="btn btn-primary btn-sm" onClick={() => openApply(job)}>
+                    Apply Now
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>
       )}
 
-      {activeJob && (
+      {activeJob && modalMode === "details" && (
+        <Modal title={activeJob.title} onClose={() => setActiveJob(null)} wide>
+          <p className="mini-list-sub" style={{ marginBottom: 4 }}>
+            {activeJob.department} · {activeJob.location} · {activeJob.type}
+          </p>
+          {activeJob.salaryRange && <p className="job-salary" style={{ marginBottom: 14 }}>{activeJob.salaryRange}</p>}
+
+          <p className="job-description" style={{ marginBottom: 16 }}>
+            {activeJob.description}
+          </p>
+
+          {activeJob.responsibilities?.length > 0 && (
+            <div style={{ marginBottom: 16 }}>
+              <h4 className="job-detail-heading">Responsibilities</h4>
+              <ul className="job-detail-list">
+                {activeJob.responsibilities.map((r) => (
+                  <li key={r}>{r}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {activeJob.requirements?.length > 0 && (
+            <div style={{ marginBottom: 20 }}>
+              <h4 className="job-detail-heading">Requirements</h4>
+              <ul className="job-detail-list">
+                {activeJob.requirements.map((r) => (
+                  <li key={r}>{r}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className="profile-actions">
+            {hasApplied(activeJob.id) ? (
+              <span className="badge badge-success">Application submitted</span>
+            ) : (
+              <button className="btn btn-primary" onClick={() => setModalMode("apply")}>
+                Apply Now
+              </button>
+            )}
+            <button type="button" className="btn btn-outline" onClick={() => setActiveJob(null)}>
+              Close
+            </button>
+          </div>
+        </Modal>
+      )}
+
+      {activeJob && modalMode === "apply" && (
         <Modal title={`Apply: ${activeJob.title}`} onClose={() => setActiveJob(null)}>
           <form onSubmit={handleApply}>
             <p className="stat-caption" style={{ marginTop: 0 }}>
@@ -121,8 +186,8 @@ export default function JobsPage() {
               <button type="submit" className="btn btn-primary" disabled={applying}>
                 {applying ? "Submitting…" : "Submit Application"}
               </button>
-              <button type="button" className="btn btn-outline" onClick={() => setActiveJob(null)}>
-                Cancel
+              <button type="button" className="btn btn-outline" onClick={() => setModalMode("details")}>
+                Back
               </button>
             </div>
           </form>

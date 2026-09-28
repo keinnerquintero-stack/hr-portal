@@ -181,6 +181,105 @@ export function AlertsWidget({ alerts, onDismiss }) {
   );
 }
 
+export function PayrollWidget({ payroll }) {
+  const lastStub = payroll.payStubs.at(-1);
+  return (
+    <div className="card card-padded widget">
+      <h3 className="widget-title">Payroll</h3>
+      {lastStub ? (
+        <>
+          <p className="stat-number" style={{ fontSize: "1.6rem" }}>
+            {lastStub.netPay.toLocaleString("en-US", { style: "currency", currency: "USD" })}
+          </p>
+          <p className="stat-caption">Last net pay · {lastStub.date}</p>
+        </>
+      ) : (
+        <p className="widget-empty">No pay stubs yet.</p>
+      )}
+      <Link to="/payroll" className="widget-link">
+        View payroll →
+      </Link>
+    </div>
+  );
+}
+
+export function BenefitsWidget({ benefits }) {
+  return (
+    <div className="card card-padded widget">
+      <h3 className="widget-title">Benefits</h3>
+      <dl className="widget-list">
+        <div>
+          <dt>Health</dt>
+          <dd>{benefits.healthPlan}</dd>
+        </div>
+        <div>
+          <dt>Dental</dt>
+          <dd>{benefits.dentalPlan}</dd>
+        </div>
+        <div>
+          <dt>401(k)</dt>
+          <dd>{benefits.retirement401k.enrolled ? `${benefits.retirement401k.contributionPct}%` : "Not enrolled"}</dd>
+        </div>
+      </dl>
+      <Link to="/benefits" className="widget-link">
+        Manage benefits →
+      </Link>
+    </div>
+  );
+}
+
+export function LearningWidget({ items }) {
+  const inProgress = items.filter((i) => i.status !== "Completed");
+  return (
+    <div className="card card-padded widget">
+      <h3 className="widget-title">Learning</h3>
+      {items.length === 0 ? (
+        <p className="widget-empty">Nothing assigned yet.</p>
+      ) : (
+        <>
+          <p className="stat-number" style={{ fontSize: "1.6rem" }}>
+            {inProgress.length}
+          </p>
+          <p className="stat-caption">item(s) in progress or not started</p>
+        </>
+      )}
+      <Link to="/learning" className="widget-link">
+        Go to Learning →
+      </Link>
+    </div>
+  );
+}
+
+export function JobsWidget({ openCount }) {
+  return (
+    <div className="card card-padded widget">
+      <h3 className="widget-title">Job Opportunities</h3>
+      <p className="stat-number" style={{ fontSize: "1.6rem" }}>
+        {openCount}
+      </p>
+      <p className="stat-caption">open position(s) at BrightPath</p>
+      <Link to="/jobs" className="widget-link">
+        Browse openings →
+      </Link>
+    </div>
+  );
+}
+
+export function DocumentsWidget({ count }) {
+  return (
+    <div className="card card-padded widget">
+      <h3 className="widget-title">Documents</h3>
+      <p className="stat-number" style={{ fontSize: "1.6rem" }}>
+        {count}
+      </p>
+      <p className="stat-caption">document(s) on file</p>
+      <Link to="/documents" className="widget-link">
+        View documents →
+      </Link>
+    </div>
+  );
+}
+
 export function TeamOverviewWidget({ employees, leaveRequests }) {
   const pending = leaveRequests.filter((r) => r.status === "Pending").length;
   return (

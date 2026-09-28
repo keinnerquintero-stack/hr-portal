@@ -11,7 +11,9 @@ export default function DocumentsPage() {
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("");
   const [category, setCategory] = useState(CATEGORIES[0]);
+  const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [localFiles, setLocalFiles] = useState({});
 
   useEffect(() => {
     load();
@@ -29,17 +31,25 @@ export default function DocumentsPage() {
     if (!name.trim()) return;
     setUploading(true);
     try {
-      await createDocument({
+      const created = await createDocument({
         employeeId: user.id,
         name,
         category,
         uploadedDate: new Date().toISOString().slice(0, 10),
       });
+      if (file) {
+        setLocalFiles((prev) => ({ ...prev, [created.id]: URL.createObjectURL(file) }));
+      }
       setName("");
+      setFile(null);
       await load();
     } finally {
       setUploading(false);
     }
+  }
+
+  function downloadUrl(doc) {
+    return doc.fileUrl ?? localFiles[doc.id] ?? null;
   }
 
   return (
@@ -69,6 +79,10 @@ export default function DocumentsPage() {
                 ))}
               </select>
             </div>
+            <div className="field">
+              <label>File (optional)</label>
+              <input type="file" onChange={(e) => setFile(e.target.files[0] ?? null)} />
+            </div>
             <button type="submit" className="btn btn-primary" style={{ width: "100%" }} disabled={uploading}>
               {uploading ? "Uploading…" : "Upload"}
             </button>
@@ -83,18 +97,35 @@ export default function DocumentsPage() {
             <div className="empty-state">No documents yet.</div>
           ) : (
             <ul className="document-list">
-              {documents.map((d) => (
-                <li key={d.id} className="document-item">
-                  <span className="document-icon">📄</span>
-                  <div className="document-meta">
-                    <span className="mini-list-title">{d.name}</span>
-                    <span className="mini-list-sub">
-                      {d.category} · Uploaded {d.uploadedDate}
-                    </span>
-                  </div>
-                  <button className="btn btn-outline btn-sm">Download</button>
-                </li>
-              ))}
+              {documents.map((d) => {
+                const url = downloadUrl(d);
+                return (
+                  <li key={d.id} className="document-item">
+                    <span className="document-icon">📄</span>
+                    <div className="document-meta">
+                      <span className="mini-list-title">{d.name}</span>
+                      <span className="mini-list-sub">
+                        {d.category} · Uploaded {d.uploadedDate}
+                      </span>
+                    </div>
+                    {url ? (
+                      <a
+                        className="btn btn-outline btn-sm"
+                        href={url}
+                        target="_blank"
+                        rel="noreferrer"
+                        download={d.fileUrl ? undefined : d.name}
+                      >
+                        Download
+                      </a>
+                    ) : (
+                      <button className="btn btn-outline btn-sm" disabled title="No file attached to this record">
+                        No file
+                      </button>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>

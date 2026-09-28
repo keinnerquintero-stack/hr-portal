@@ -19,6 +19,10 @@
   overflow-y: auto;
 }
 
+.modal-panel-wide {
+  max-width: 640px;
+}
+
 .modal-header {
   display: flex;
   align-items: center;

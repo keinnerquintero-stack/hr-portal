@@ -1,12 +1,36 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { updateEmployee } from "../api";
+import Modal from "../components/Modal";
 import "./PayrollPage.css";
 
 const TABS = ["Pay & Tax Setup", "Pay Stubs", "Direct Deposit", "Sample Check"];
 
 function currency(n) {
   return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
+}
+
+function stubBreakdown(stub, contributionPct) {
+  const gross = stub.grossPay;
+  const socialSecurity = gross * 0.062;
+  const medicare = gross * 0.0145;
+  const retirement401k = gross * ((contributionPct ?? 0) / 100);
+  const healthInsurance = 120;
+  const dental = 18;
+  const vision = 6;
+  const preTaxDeductions = retirement401k + healthInsurance + dental + vision;
+  const taxesWithheld = Math.max(0, gross - preTaxDeductions - stub.netPay - socialSecurity - medicare);
+
+  return {
+    socialSecurity,
+    medicare,
+    retirement401k,
+    healthInsurance,
+    dental,
+    vision,
+    taxesWithheld,
+    totalDeductions: gross - stub.netPay,
+  };
 }
 
 export default function PayrollPage() {
@@ -17,6 +41,7 @@ export default function PayrollPage() {
   const [depositForm, setDepositForm] = useState(payroll.directDeposit);
   const [message, setMessage] = useState("");
   const [saving, setSaving] = useState(false);
+  const [activeStub, setActiveStub] = useState(null);
 
   const ytdGross = payroll.payStubs.reduce((sum, p) => sum + p.grossPay, 0);
   const ytdNet = payroll.payStubs.reduce((sum, p) => sum + p.netPay, 0);
@@ -163,7 +188,9 @@ export default function PayrollPage() {
                       <td>{currency(stub.grossPay)}</td>
                       <td>{currency(stub.netPay)}</td>
                       <td>
-                        <button className="btn btn-outline btn-sm">View</button>
+                        <button className="btn btn-outline btn-sm" onClick={() => setActiveStub(stub)}>
+                          View
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -246,6 +273,107 @@ export default function PayrollPage() {
             </div>
           </div>
         )}
+      </div>
+
+      {activeStub && (
+        <Modal title="Pay Stub Detail" onClose={() => setActiveStub(null)} wide>
+          <PayStubDetail stub={activeStub} payroll={payroll} user={user} />
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+function PayStubDetail({ stub, payroll, user }) {
+  const d = stubBreakdown(stub, user.benefits?.retirement401k?.contributionPct);
+
+  return (
+    <div className="paystub-detail">
+      <div className="paystub-detail-header">
+        <div>
+          <strong>BrightPath Inc.</strong>
+          <p>500 Market Street, Suite 300, New York, NY</p>
+        </div>
+        <div className="paystub-detail-header-right">
+          <p>Pay date: {stub.date}</p>
+          <p>Pay period: {stub.period}</p>
+        </div>
+      </div>
+
+      <div className="paystub-detail-employee">
+        <div>
+          <span className="stat-caption">Employee</span>
+          <p>{user.name}</p>
+        </div>
+        <div>
+          <span className="stat-caption">Position</span>
+          <p>{user.position}</p>
+        </div>
+        <div>
+          <span className="stat-caption">Pay type</span>
+          <p>
+            {payroll.payType} · {payroll.payFrequency}
+          </p>
+        </div>
+      </div>
+
+      <table className="paystub-table">
+        <thead>
+          <tr>
+            <th>Earnings</th>
+            <th style={{ textAlign: "right" }}>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Gross pay</td>
+            <td style={{ textAlign: "right" }}>{currency(stub.grossPay)}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table className="paystub-table">
+        <thead>
+          <tr>
+            <th>Deductions</th>
+            <th style={{ textAlign: "right" }}>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Federal &amp; state tax withheld</td>
+            <td style={{ textAlign: "right" }}>{currency(d.taxesWithheld)}</td>
+          </tr>
+          <tr>
+            <td>Social Security (6.2%)</td>
+            <td style={{ textAlign: "right" }}>{currency(d.socialSecurity)}</td>
+          </tr>
+          <tr>
+            <td>Medicare (1.45%)</td>
+            <td style={{ textAlign: "right" }}>{currency(d.medicare)}</td>
+          </tr>
+          <tr>
+            <td>401(k) contribution</td>
+            <td style={{ textAlign: "right" }}>{currency(d.retirement401k)}</td>
+          </tr>
+          <tr>
+            <td>Health insurance</td>
+            <td style={{ textAlign: "right" }}>{currency(d.healthInsurance)}</td>
+          </tr>
+          <tr>
+            <td>Dental insurance</td>
+            <td style={{ textAlign: "right" }}>{currency(d.dental)}</td>
+          </tr>
+          <tr>
+            <td>Vision insurance</td>
+            <td style={{ textAlign: "right" }}>{currency(d.vision)}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div className="paystub-net">
+        <span>Net Pay</span>
+        <strong>{currency(stub.netPay)}</strong>
       </div>
     </div>
   );

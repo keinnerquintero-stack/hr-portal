@@ -7,6 +7,7 @@ import "./Navbar.css";
 function CompanyInfoMenu() {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const closeTimer = useRef(null);
 
   useEffect(() => {
     function handleClick(e) {
@@ -16,8 +17,20 @@ function CompanyInfoMenu() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  useEffect(() => () => clearTimeout(closeTimer.current), []);
+
+  function openNow() {
+    clearTimeout(closeTimer.current);
+    setOpen(true);
+  }
+
+  function closeSoon() {
+    clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setOpen(false), 250);
+  }
+
   return (
-    <div className="dropdown" ref={ref} onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+    <div className="dropdown" ref={ref} onMouseEnter={openNow} onMouseLeave={closeSoon}>
       <button type="button" className="navbar-link navbar-menu-trigger" onClick={() => setOpen((o) => !o)}>
         Company Info ▾
       </button>
@@ -72,7 +85,7 @@ export default function Navbar() {
                 Dashboard
               </NavLink>
               <NotificationBell />
-              <div className="navbar-user">
+              <NavLink to="/profile" className="navbar-user" title="Go to My Profile">
                 <div className="navbar-avatar">{user?.name?.charAt(0) ?? "?"}</div>
                 <div className="navbar-user-meta">
                   <span className="navbar-user-name">{user?.name}</span>
@@ -80,7 +93,7 @@ export default function Navbar() {
                     {role === "hr" ? "HR Staff" : "Employee"}
                   </span>
                 </div>
-              </div>
+              </NavLink>
               <button className="btn btn-outline btn-sm navbar-logout-desktop" onClick={handleLogout}>
                 Log out
               </button>
@@ -125,6 +138,9 @@ export default function Navbar() {
               </NavLink>
               <NavLink to="/" end onClick={() => setMobileOpen(false)}>
                 Dashboard
+              </NavLink>
+              <NavLink to="/profile" onClick={() => setMobileOpen(false)}>
+                My Profile
               </NavLink>
               <button className="btn btn-outline btn-sm" onClick={handleLogout}>
                 Log out

@@ -654,7 +654,16 @@ function OnboardingTracker() {
   );
 }
 
-const emptyJobForm = { title: "", department: "", location: "", type: "Full-Time", description: "" };
+const emptyJobForm = {
+  title: "",
+  department: "",
+  location: "",
+  type: "Full-Time",
+  salaryRange: "",
+  description: "",
+  responsibilities: "",
+  requirements: "",
+};
 
 function JobPostingsManager() {
   const [postings, setPostings] = useState([]);
@@ -679,6 +688,8 @@ function JobPostingsManager() {
     e.preventDefault();
     await createJobPosting({
       ...form,
+      responsibilities: form.responsibilities.split("\n").map((s) => s.trim()).filter(Boolean),
+      requirements: form.requirements.split("\n").map((s) => s.trim()).filter(Boolean),
       postedDate: new Date().toISOString().slice(0, 10),
       status: "Open",
     });
@@ -754,7 +765,7 @@ function JobPostingsManager() {
       )}
 
       {modalOpen && (
-        <Modal title="Post a Job" onClose={() => setModalOpen(false)}>
+        <Modal title="Post a Job" onClose={() => setModalOpen(false)} wide>
           <form onSubmit={handleCreate}>
             <div className="field">
               <label>Title</label>
@@ -778,14 +789,24 @@ function JobPostingsManager() {
                 />
               </div>
             </div>
-            <div className="field">
-              <label>Type</label>
-              <select value={form.type} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))}>
-                <option>Full-Time</option>
-                <option>Part-Time</option>
-                <option>Contract</option>
-                <option>Internship</option>
-              </select>
+            <div className="form-grid-2">
+              <div className="field">
+                <label>Type</label>
+                <select value={form.type} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))}>
+                  <option>Full-Time</option>
+                  <option>Part-Time</option>
+                  <option>Contract</option>
+                  <option>Internship</option>
+                </select>
+              </div>
+              <div className="field">
+                <label>Salary range (optional)</label>
+                <input
+                  placeholder="e.g. $80,000 - $95,000"
+                  value={form.salaryRange}
+                  onChange={(e) => setForm((f) => ({ ...f, salaryRange: e.target.value }))}
+                />
+              </div>
             </div>
             <div className="field">
               <label>Description</label>
@@ -793,6 +814,22 @@ function JobPostingsManager() {
                 value={form.description}
                 onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
                 required
+              />
+            </div>
+            <div className="field">
+              <label>Responsibilities (one per line)</label>
+              <textarea
+                value={form.responsibilities}
+                onChange={(e) => setForm((f) => ({ ...f, responsibilities: e.target.value }))}
+                placeholder={"Lead a small project team\nReview pull requests"}
+              />
+            </div>
+            <div className="field">
+              <label>Requirements (one per line)</label>
+              <textarea
+                value={form.requirements}
+                onChange={(e) => setForm((f) => ({ ...f, requirements: e.target.value }))}
+                placeholder={"3+ years of relevant experience\nStrong written communication"}
               />
             </div>
             <div className="profile-actions">

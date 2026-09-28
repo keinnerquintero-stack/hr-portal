@@ -3,7 +3,10 @@ import { useAuth } from "../context/AuthContext";
 import {
   getAlertsForEmployee,
   getAnnouncements,
+  getDocumentsForEmployee,
   getEmployees,
+  getJobPostings,
+  getLearningItemsForEmployee,
   getLeaveRequests,
   getLeaveRequestsForEmployee,
   getOnboarding,
@@ -12,9 +15,14 @@ import {
 import {
   AlertsWidget,
   AnnouncementsWidget,
+  BenefitsWidget,
+  DocumentsWidget,
+  JobsWidget,
+  LearningWidget,
   LeaveBalanceWidget,
   MyLeaveWidget,
   OnboardingWidget,
+  PayrollWidget,
   ProfileWidget,
   QuickActionsWidget,
   TeamOverviewWidget,
@@ -26,6 +34,11 @@ const WIDGET_DEFS = [
   { key: "alerts", label: "Alerts" },
   { key: "leaveBalance", label: "Leave Balance" },
   { key: "myLeave", label: "My Leave Requests" },
+  { key: "payroll", label: "Payroll" },
+  { key: "benefits", label: "Benefits" },
+  { key: "learning", label: "Learning" },
+  { key: "documents", label: "Documents" },
+  { key: "jobs", label: "Job Opportunities" },
   { key: "announcements", label: "Company Announcements" },
   { key: "onboarding", label: "Onboarding Checklist" },
   { key: "quickActions", label: "Quick Actions" },
@@ -46,6 +59,9 @@ export default function DashboardPage() {
   const [onboarding, setOnboarding] = useState(null);
   const [employees, setEmployees] = useState([]);
   const [allLeave, setAllLeave] = useState([]);
+  const [learningItems, setLearningItems] = useState([]);
+  const [documentCount, setDocumentCount] = useState(0);
+  const [openJobCount, setOpenJobCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [enabled, setEnabled] = useState(() => loadPreferences(session.username));
   const [customizing, setCustomizing] = useState(false);
@@ -59,6 +75,9 @@ export default function DashboardPage() {
         getLeaveRequestsForEmployee(user.id),
         getOnboarding(),
         getAlertsForEmployee(user.id),
+        getLearningItemsForEmployee(user.id),
+        getDocumentsForEmployee(user.id),
+        getJobPostings(),
       ];
       if (isHR) {
         tasks.push(getEmployees(), getLeaveRequests());
@@ -70,9 +89,12 @@ export default function DashboardPage() {
       const record = results[2].find((o) => o.employeeId === user.id);
       setOnboarding(record ?? null);
       setAlerts(results[3]);
+      setLearningItems(results[4]);
+      setDocumentCount(results[5].length);
+      setOpenJobCount(results[6].filter((j) => j.status === "Open").length);
       if (isHR) {
-        setEmployees(results[4]);
-        setAllLeave(results[5]);
+        setEmployees(results[7]);
+        setAllLeave(results[8]);
       }
       setLoading(false);
     }
@@ -143,6 +165,11 @@ export default function DashboardPage() {
         {enabled.includes("alerts") && <AlertsWidget alerts={alerts} onDismiss={dismissAlert} />}
         {enabled.includes("leaveBalance") && <LeaveBalanceWidget employee={user} />}
         {enabled.includes("quickActions") && <QuickActionsWidget isHR={isHR} />}
+        {enabled.includes("payroll") && user.payroll && <PayrollWidget payroll={user.payroll} />}
+        {enabled.includes("benefits") && user.benefits && <BenefitsWidget benefits={user.benefits} />}
+        {enabled.includes("learning") && <LearningWidget items={learningItems} />}
+        {enabled.includes("documents") && <DocumentsWidget count={documentCount} />}
+        {enabled.includes("jobs") && <JobsWidget openCount={openJobCount} />}
         {enabled.includes("myLeave") && <MyLeaveWidget requests={myLeave} />}
         {enabled.includes("announcements") && <AnnouncementsWidget announcements={announcements} />}
         {showOnboarding && <OnboardingWidget record={onboarding} />}

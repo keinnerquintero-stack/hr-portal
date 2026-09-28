@@ -227,7 +227,20 @@
       "department": "Engineering",
       "location": "Remote (US)",
       "type": "Full-Time",
+      "salaryRange": "$120,000 - $150,000",
       "description": "Own the frontend architecture for our internal tools, mentor engineers, and collaborate closely with design.",
+      "responsibilities": [
+        "Lead the architecture and development of our React-based internal tools",
+        "Review pull requests and mentor mid-level and junior engineers",
+        "Partner with design and product to scope and estimate new features",
+        "Improve build performance, accessibility, and test coverage across the frontend"
+      ],
+      "requirements": [
+        "5+ years building production React applications",
+        "Strong understanding of component architecture and state management",
+        "Experience with REST or GraphQL APIs",
+        "Comfortable giving and receiving code review feedback"
+      ],
       "postedDate": "2026-09-05",
       "status": "Open"
     },
@@ -237,7 +250,20 @@
       "department": "Human Resources",
       "location": "New York, NY",
       "type": "Full-Time",
+      "salaryRange": "$62,000 - $75,000",
       "description": "Support onboarding, benefits administration, and employee engagement programs.",
+      "responsibilities": [
+        "Coordinate new hire onboarding from offer acceptance through first 30 days",
+        "Process benefits enrollment changes and answer employee questions",
+        "Help plan quarterly employee engagement events",
+        "Maintain accurate employee records in the HR portal"
+      ],
+      "requirements": [
+        "1-3 years of experience in HR, recruiting coordination, or office operations",
+        "Excellent written and verbal communication skills",
+        "Comfortable handling confidential information with discretion",
+        "Highly organized with strong attention to detail"
+      ],
       "postedDate": "2026-09-12",
       "status": "Open"
     },
@@ -247,7 +273,20 @@
       "department": "Product Design",
       "location": "Hybrid - New York",
       "type": "Full-Time",
+      "salaryRange": "$100,000 - $130,000",
       "description": "Design end-to-end experiences for our customer-facing products alongside a small, senior team.",
+      "responsibilities": [
+        "Design flows, wireframes, and high-fidelity screens for new product features",
+        "Run usability sessions and translate findings into design iterations",
+        "Contribute to and help maintain our shared design system",
+        "Partner closely with engineering through implementation"
+      ],
+      "requirements": [
+        "3+ years of product design experience, ideally on a SaaS product",
+        "A portfolio showing end-to-end process, not just final screens",
+        "Proficiency in Figma",
+        "Comfortable presenting and defending design decisions to stakeholders"
+      ],
       "postedDate": "2026-08-28",
       "status": "Open"
     }
@@ -305,7 +344,8 @@
       "employeeId": "all",
       "name": "Employee Handbook 2026",
       "category": "Company Policy",
-      "uploadedDate": "2026-01-05"
+      "uploadedDate": "2026-01-05",
+      "fileUrl": "/documents/employee-handbook.pdf"
     },
     {
       "id": "doc2",
